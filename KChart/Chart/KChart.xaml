@@ -17,8 +17,8 @@
         <Canvas x:Name="chartCanvas" Grid.Row="1" ClipToBounds="True" MouseMove="chartCanvas_MouseMove">
 
         </Canvas>
-        <TextBlock x:Name="description1"/>
-        <TextBlock x:Name="description2" Grid.Row="2"/>
+        <!--<TextBlock x:Name="description1"/>
+        <TextBlock x:Name="description2" Grid.Row="2"/>-->
         <Canvas Background="Gray" x:Name="amountCanvas" Grid.Row="3" ClipToBounds="True"/>
     </Grid>
 </UserControl>

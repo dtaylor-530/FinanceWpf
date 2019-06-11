@@ -16,7 +16,7 @@
 xmlns:view="clr-namespace:FinanceWpf.View;assembly=FinanceWpf.View"
                    Background="{DynamicResource MaterialDesignPaper}"
                    BorderThickness="0"
-               
+            
                    TextElement.FontSize="14"
                    TextElement.FontWeight="Medium"
                  >
@@ -26,39 +26,51 @@ xmlns:view="clr-namespace:FinanceWpf.View;assembly=FinanceWpf.View"
         <local:MainViewModel></local:MainViewModel>
     </UserControl.DataContext>
     <UserControl.Resources>
-        <local:IntConverter x:Key="IntConverter"></local:IntConverter>
-        <!--<local:DateTimeConverter x:Key="DateTimeConverter"></local:DateTimeConverter>-->
+        <!--<local:IntConverter x:Key="IntConverter"></local:IntConverter>-->
+        <local:DateTimeConverter x:Key="DateTimeConverter"></local:DateTimeConverter>
     </UserControl.Resources>
 
-   
-            <DockPanel>
+
+    <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <!--<ComboBox x:Name="cbox1" ItemsSource="{Binding Sectors,Mode=OneWay}" SelectedIndex="0" DisplayMemberPath="Key" Width="200"/>
-            <ComboBox x:Name="cbox2" ItemsSource="{Binding ElementName=cbox1,Path=SelectedItem.Stocks,Mode=OneWay}" SelectionChanged="Cbox2_SelectionChanged" DisplayMemberPath="Key"  SelectedIndex="0" Width="200"/>-->
-            <DatePicker  x:Name="dp1"  Width="200"  VerticalAlignment="Center"      Text="{Binding Date1,Mode=TwoWay}"  />
-            <DatePicker  x:Name="dp2"  Width="200"  VerticalAlignment="Center"     Text="{Binding Date2,Mode=TwoWay}"   />
- 
+            <DatePicker  x:Name="dp1"  Width="200"  VerticalAlignment="Center"      Text="{Binding Date1,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"  />
+            <DatePicker  x:Name="dp2"  Width="200"  VerticalAlignment="Center"     Text="{Binding Date2,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"   />
+
         </ToolBar>
-        <view:TreeViewFirst x:Name="tvMain" ItemsSource="{Binding Sectors,Mode=OneTime}"   DockPanel.Dock="Left" >
+        <view:TreeViewFirst x:Name="tvMain" ItemsSource="{Binding Sectors,Mode=OneWay}"   DockPanel.Dock="Left" >
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding Stock,Mode=TwoWay}" />
             </i:Interaction.Behaviors>
             <view:TreeViewFirst.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Stocks,Mode=OneTime}">
                     <StackPanel Orientation="Horizontal" Margin="4" >
-                        <!--<CheckBox Name="chk" Margin="2" Tag="{Binding Path=Name}" ></CheckBox>
-                        <Image  Margin="2" Source="{Binding Path=ImageUrl}" ></Image>-->
-                        <TextBlock Text="{Binding Path=Key}" Margin="2" >
-                        </TextBlock>
-                    
+                        <TextBlock Text="{Binding Path=Key}" Margin="2" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </view:TreeViewFirst.ItemTemplate>
         </view:TreeViewFirst>
 
+        <Grid>
+            <kchart:KChart DataSource="{Binding Prices,Mode=OneWay}" DockPanel.Dock="Bottom"
+                           LowMemberPath="Low" HighMemberPath="High" LowMemberPath2="Close" HighMemberPath2="Open">
+                <kchart:KChart.Graphs>
+                    <kchart:StockGraph LowMemberPath="Low" HighMemberPath="High" CloseMemberPath="Close" OpenMemberPath="Open"></kchart:StockGraph>
+
+                </kchart:KChart.Graphs>
+                <kchart:KChart.OtherGraphs>
+                    <kchart:ColumnGraph Brush="PaleGreen" ValueMemberPath="Volume">
+
+                    </kchart:ColumnGraph>
+                </kchart:KChart.OtherGraphs>
+            </kchart:KChart>
+            <TextBlock Text="{Binding Prices.Count}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"></TextBlock>
+        </Grid>
+    </DockPanel>
 
 
-        <Expander            DockPanel.Dock="Bottom">
+    
+    
+    <!--<Expander            DockPanel.Dock="Bottom">
             <DockPanel>
 
                 <ToolBar DockPanel.Dock="Top">
@@ -73,27 +85,10 @@ xmlns:view="clr-namespace:FinanceWpf.View;assembly=FinanceWpf.View"
                          >
         </FinanceWpf:DeedleControl>
                </DockPanel>
-        </Expander>
-                
-                
-        <!--<Grid Height="400" Width="600"  DockPanel.Dock="Bottom">
+        </Expander>-->
+
+
+    <!--<Grid Height="400" Width="600"  DockPanel.Dock="Bottom">
             <oxx:FinanceControl ItemsSource="{Binding Prices,Mode=OneWay}" Time="Date"></oxx:FinanceControl>
         </Grid>-->
-      
-            <kchart:KChart DataSource="{Binding Prices}" DockPanel.Dock="Bottom"
-                           LowMemberPath="Low" HighMemberPath="High" LowMemberPath2="Close" HighMemberPath2="Open">
-                <kchart:KChart.Graphs>
-                    <kchart:StockGraph LowMemberPath="Low" HighMemberPath="High" CloseMemberPath="Close" OpenMemberPath="Open"></kchart:StockGraph>
-
-                </kchart:KChart.Graphs>
-            <kchart:KChart.OtherGraphs>
-                <kchart:ColumnGraph Brush="PaleGreen" ValueMemberPath="Volume">
-
-                </kchart:ColumnGraph>
-            </kchart:KChart.OtherGraphs>
-        </kchart:KChart>
-        
-    </DockPanel>
-
-
 </UserControl>

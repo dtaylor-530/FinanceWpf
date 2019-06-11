@@ -45,6 +45,13 @@ namespace FinanceWpf.DAL
             Prices = ParseDayMovement(raw + "\\" + fileName + ".csv")
         };
 
+        public Stock GetStock(string fileName, DateTime start, DateTime end) => new Stock
+        {
+            Key = Path.GetFileNameWithoutExtension(raw + "\\" + fileName + ".csv"),
+            Prices = ParseDayMovement(raw + "\\" + fileName + ".csv").Where(_ => _.Date >= start && _.Date <= end)
+        };
+
+
         public IEnumerable<Model.Sector> GetSectors() =>
 
                   from myRow in Frame.ReadCsv(stockTable).ToDataTable(new[] { "" }).AsEnumerable()

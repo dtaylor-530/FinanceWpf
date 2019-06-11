@@ -20,7 +20,8 @@ namespace FinanceWpf.Terminal
 
         //  private ReadOnlyObservableCollection<KeyValuePair<(DateTime, DateTime), List<Trade>>> _data;
 
-        public ObservableCollection<KeyValuePair<(DateTime, DateTime), List<Trade>>> Data { get; set; }
+        public IEnumerable<KeyValuePair<(DateTime, DateTime), List<Trade>>> Data => data.Value;
+        private ObservableAsPropertyHelper<IEnumerable<KeyValuePair<(DateTime, DateTime), List<Trade>>>> data;
 
         private ReadOnlyObservableCollection<Trade> _trades;
         public ReadOnlyObservableCollection<Trade> Trades => _trades;
@@ -28,6 +29,7 @@ namespace FinanceWpf.Terminal
 
         private ReadOnlyObservableCollection<Price> _prices;
         public ReadOnlyObservableCollection<Price> Prices => _prices;
+
 
 
         public TertiaryViewModel()
@@ -38,44 +40,38 @@ namespace FinanceWpf.Terminal
             var tf = new DAL.TradeFactory();
 
 
-            var oprices = Observable.Generate(prices.Current, value => prices.MoveNext(), value => value, value => prices.Current, value => TimeSpan.FromMilliseconds(500)).Publish().RefCount();
+            var oprices = Observable.Generate(prices.Current, value => prices.MoveNext(), value => value, value => prices.Current, value => TimeSpan.FromMilliseconds(1500)).Publish().RefCount();
 
-            var randomprices = from op in oprices
+            var randomprices = (from op in oprices
                                where rnd.NextDouble() > 0.5
-                               select op;
+                               select op).ToObservableChangeSet(_ => _.Date + _.Key);
 
-            randomprices.ToObservableChangeSet()
+            randomprices
             .ObserveOnDispatcher()
             .Bind(out _prices)
             .Subscribe();
 
 
-            var randomtrades = from op in oprices
+            var randomtrades = (from op in oprices
                                where rnd.NextDouble() > 0.5
-                               select tf.NewTrade(op);
+                               select tf.NewTrade(op)).ToObservableChangeSet(_ => _.Date + _.Key);
 
 
             randomtrades
-                .ToObservableChangeSet()
                 .ObserveOnDispatcher()
                 .Bind(out _trades)
                 .Subscribe();
 
 
-            var randomprices2 = randomprices.ToObservableChangeSet(_ => _.Date + _.Key);
 
+         
 
-            randomtrades.ToObservableChangeSet(_ => _.Date + _.Key).ToCollection()
-             .CombineLatest(randomprices2.ToCollection(), (a, b) => new { a, b }).Select(_ =>
-                  {
-                      var x = Combine(_.a, _.b);
-                      return x;
+            data= randomtrades.ToCollection()
+             .CombineLatest(randomprices.ToCollection(), (a, b) => new { a, b })
+             .Select(_ => Combine(_.a, _.b))
+             .ObserveOnDispatcher().Where(_ => _ != null)
+             .ToProperty(this, _ => _.Data);
 
-                  }).ObserveOnDispatcher().Where(_ => _ != null).Subscribe(_ =>
-                      {
-                          Data = new ObservableCollection<KeyValuePair<(DateTime, DateTime), List<Trade>>>(_);
-                          this.RaisePropertyChanged(nameof(Data));
-                      });
 
         }
 
@@ -83,19 +79,29 @@ namespace FinanceWpf.Terminal
 
         private IEnumerable<KeyValuePair<(DateTime, DateTime), List<Trade>>> Combine(IReadOnlyCollection<Trade> collection, IReadOnlyCollection<Price> collection2)
         {
-            var combined = collection2.Take(collection2.Count - 1).Zip(collection2.Skip(1), (a, b) => new { a, b });
+            var groupcombined = collection2.ToLookup(_ => _.Key);
+            var combined = groupcombined.ToDictionary(_ => _.Key, _ => _.Take(groupcombined[_.Key].Count() - 1).Zip(groupcombined[_.Key].Skip(1), (a, b) => new { a, b }).ToArray());
+            var group = collection.ToLookup(_ => _.Key);
 
-            var dxx = from dp in collection
-                      let catIds =
-                      from xx in from ty in
-                                     from dk in combined
-                                     where predicate(dp.Date, dk.a.Date, dk.b.Date)
-                                     select new { key = (dk.a.Date, dk.b.Date), dp }
-                                 group ty by ty.key
-                      select new KeyValuePair<(DateTime, DateTime), List<Trade>>(xx.Key, xx.Select(_ => _.dp).ToList())
-                      select catIds.FirstOrDefault();
-            return dxx;
-
+            return group.SelectMany(_ =>
+            {
+                if (combined.ContainsKey(_.Key) && combined[_.Key].Any())
+                {
+                    var dxx = 
+                              from dp in _.ToList()
+                              let catIds =
+                              from xx in from ty in
+                                             from dk in combined[_.Key]
+                                             where predicate(dp.Date, dk.a.Date, dk.b.Date)
+                                             select new { key = (dk.a.Date, dk.b.Date), dp }
+                                         group ty by ty.key
+                              select new KeyValuePair<(DateTime, DateTime), List<Trade>>(xx.Key, xx.Select(__ => __.dp).ToList())
+                              select catIds.FirstOrDefault();
+                       
+                    return dxx.Where(ac=>ac.Value?.Any()!=null? ac.Value.Any():false);
+                }
+                return new List<KeyValuePair<(DateTime, DateTime), List<Trade>>>();
+            });
         }
 
 

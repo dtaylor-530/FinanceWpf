@@ -32,7 +32,7 @@ namespace FinanceWpf.ViewModel
                    Size = Buy + Sell;
                    Date = __.Last().Date;
                    Key = group.Key;
-                   Profit = __.Sum(_ => (decimal)_.Profit);
+                   Profit = __.Sum(_ => (decimal)_.Profit - _.Price.Amount * _.Amount.Amount);
                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
                });
 

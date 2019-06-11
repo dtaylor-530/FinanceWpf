@@ -24,7 +24,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <view:PositionTracker Trades="{Binding Trades,Mode=OneWay}" Position="Amount">
+        <view:PositionTracker Trades="{Binding Trades,Mode=OneWay}" Position="Amount" Price="Price" Profit="Profit">
         </view:PositionTracker>
 
         <DataGrid Grid.Row="1"

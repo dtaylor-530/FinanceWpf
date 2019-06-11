@@ -288,7 +288,7 @@ namespace KChart.Chart
 
                     if (!string.IsNullOrEmpty(str))
                     {
-                        description1.Text = str;
+                        //description1.Text = str;
                         break;
                     }
                 }
@@ -302,7 +302,7 @@ namespace KChart.Chart
 
                     if (!string.IsNullOrEmpty(str))
                     {
-                        description2.Text = str;
+                        //description2.Text = str;
                         break;
                     }
                 }

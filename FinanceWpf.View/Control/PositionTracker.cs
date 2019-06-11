@@ -47,6 +47,8 @@ namespace FinanceWpf.View
 
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position", typeof(string), typeof(PositionTracker), new PropertyMetadata("Position", Changed));
 
+        public static readonly DependencyProperty ProfitProperty = DependencyProperty.Register("Profit", typeof(string), typeof(PositionTracker), new PropertyMetadata("Profit", Changed));
+
         //public static readonly DependencyProperty ResultProperty = DependencyProperty.Register("Result", typeof(string), typeof(PositionTracker3), new PropertyMetadata("Result", Changed));
 
         //public static readonly DependencyProperty PositionTrackerProperty = DependencyProperty.Register("PositionTracker", typeof(PositionTracker), typeof(PositionTracker3), new PropertyMetadata(null));
@@ -106,6 +108,13 @@ namespace FinanceWpf.View
             set { SetValue(PriceProperty, value); }
         }
 
+        public string Profit
+        {
+            get { return (string)GetValue(ProfitProperty); }
+            set { SetValue(ProfitProperty, value); }
+        }
+
+
         //public PositionTracker PositionTracker
         //{
         //    get { return (PositionTracker)GetValue(PositionTrackerProperty); }
@@ -114,7 +123,7 @@ namespace FinanceWpf.View
 
         Dictionary<string, Subject<object>> dict = typeof(PositionTracker).GetDependencyProperties().ToDictionary(_ => _.Name.Substring(0, _.Name.Length - 8), _ => new Subject<object>());
         private ReadOnlyObservableCollection<PositionViewModel> _data;
-        private ReadOnlyObservableCollection<Price> _data2;
+        //private ReadOnlyObservableCollection<Price> _data2;
 
 
         //private ReadOnlyObservableCollection<IGroup<KeyValuePair<string, KeyValuePair<DateTime, double>>, string, string>> _data;
@@ -154,10 +163,10 @@ namespace FinanceWpf.View
         {
             ListBox = this.GetTemplateChild("ListBox") as ListBox;
             ListBox.ItemsSource = _data;
-            _data.CollectionChangedAsObservable().Subscribe(_ =>
-            {
+            //_data.CollectionChangedAsObservable().Subscribe(_ =>
+            //{
 
-            });
+            //});
         }
 
         public PositionTracker()
@@ -174,15 +183,17 @@ namespace FinanceWpf.View
             dict[nameof(Trades)].Where(_ => _ != null)
                 .CombineLatest(dict[nameof(Date)].StartWith("Date"),
                 dict[nameof(Key)].Where(_ => _ != null).StartWith("Key"),
-                dict[nameof(Position)].Where(_ => _ != null),
-                (positions, date, key, position) => new { positions, date, key, position })
+                dict[nameof(Position)].Where(_ => _ != null).StartWith("Position"),
+                   dict[nameof(Price)].Where(_ => _ != null).StartWith("Price"),
+                      dict[nameof(Profit)].Where(_ => _ != null).StartWith("Profit"),
+                (positions, date, key, position, price, profit) => new { positions, date, key, position, price, profit })
                //
                .Subscribe(_ =>
-               GetChanges((IEnumerable)_.positions, (string)_.date, (string)_.key, (string)_.position).
-               Select(t => new Trade { Key = t.Key, Amount = (Money)t.Value.Value, Date = t.Value.Key })
+               GetChanges((IEnumerable)_.positions, (string)_.date, (string)_.key, (string)_.position, (string)_.price, (string)_.profit).
+               Select(t => new Trade { Key = t.Key, Amount = (Money)t.Value.Value["Amount"], Price = (Money)t.Value.Value["Price"], Profit = (Money)t.Value.Value["Profit"], Date = t.Value.Key })
                .ToObservableChangeSet(c => c.Date + c.Key)
                .Group(g => g.Key)
-               .Transform(t =>  new PositionViewModel(t))
+               .Transform(t => new PositionViewModel(t))
               .ObserveOn(dispatcher)
                .Bind(out _data)
                 .DisposeMany()
@@ -205,15 +216,18 @@ namespace FinanceWpf.View
 
 
 
-        private static IObservable<KeyValuePair<string, KeyValuePair<DateTime, decimal>>> GetChanges(IEnumerable data, string date, string key, string value)
+        private static IObservable<KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>> GetChanges(IEnumerable data, string date, string key, string value, string price, string profit)
         {
             Type type = null;
             PropertyInfo Date_ = null;
             PropertyInfo Key_ = null;
             PropertyInfo Value = null;
+            PropertyInfo Price = null;
+            PropertyInfo Profit = null;
             object lck = new object();
-            return Observable.Create<KeyValuePair<string, KeyValuePair<DateTime, decimal>>>(observer => ((data as INotifyCollectionChanged)?.CollectionChangedAsObservable() ?? Observable.Empty<NotifyCollectionChangedEventArgs>())
 
+            return Observable.Create<KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>>(observer =>
+            ((data as INotifyCollectionChanged)?.CollectionChangedAsObservable() ?? Observable.Empty<NotifyCollectionChangedEventArgs>())
             .ObserveOn(Scheduler.Default)
             .StartWith(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, data)).Where(_ => _.NewItems != null).Subscribe(_ =>
                              {
@@ -222,11 +236,14 @@ namespace FinanceWpf.View
                                  {
                                      if (type == null)
                                      {
+                            
                                          type = data.First().GetType();
+                                         var properties = type.GetProperties();
                                          Date_ = type.GetProperty(date);
                                          Key_ = type.GetProperty(key);
-                                         Value = type.GetProperty(value);
-
+                                         Value = properties.FirstOrDefault(_a => _a.Name == value);
+                                         Price = properties.FirstOrDefault(_a => _a.Name == price);
+                                         Profit = properties.FirstOrDefault(_a => _a.Name == profit);
                                      }
                                      lock (lck)
                                      {
@@ -235,12 +252,25 @@ namespace FinanceWpf.View
                                              if (newitems is IEnumerable enumerable)
                                                  foreach (var __ in (enumerable).Cast<object>().ToArray())
                                                  {
-                                                     observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, decimal>>(__.GetPropValue<string>(Key_),
-                                                     new KeyValuePair<DateTime, decimal>(__.GetPropValue<DateTime>(Date_), __.GetPropValue<decimal>(Value))));
+                                                     observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>(__.GetPropValue<string>(Key_),
+                                                         new KeyValuePair<DateTime, Dictionary<string, decimal>>(newitems.GetPropValue<DateTime>(Date_),
+                                                    new Dictionary<string, decimal>
+                                                    {
+                                                        { Value?.Name, Value!=null?newitems.GetPropValue<decimal>(Value):0 },
+                                                                     { Price?.Name, Price!=null?newitems.GetPropValue<decimal>(Price):0 },
+                                                                { Profit?.Name, Profit!=null?newitems.GetPropValue<decimal>(Profit):0 }
+
+                                                    })));
                                                  }
                                              else
-                                                 observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, decimal>>(newitems.GetPropValue<string>(Key_),
-                                                    new KeyValuePair<DateTime, decimal>(newitems.GetPropValue<DateTime>(Date_), newitems.GetPropValue<decimal>(Value))));
+                                                 observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>(newitems.GetPropValue<string>(Key_),
+                                                    new KeyValuePair<DateTime, Dictionary<string, decimal>>(newitems.GetPropValue<DateTime>(Date_),
+                                                    new Dictionary<string, decimal>
+                                                    {
+                                                        { Value?.Name, Value!=null?newitems.GetPropValue<decimal>(Value):0 },
+                                                                     { Price?.Name, Price!=null?newitems.GetPropValue<decimal>(Price):0 },
+                                                                { Profit?.Name, Profit!=null?newitems.GetPropValue<decimal>(Profit):0 }
+                                                    })));
                                          }
                                      }
                                  }

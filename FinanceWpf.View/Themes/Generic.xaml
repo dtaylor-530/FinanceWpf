@@ -44,6 +44,22 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style TargetType="{x:Type local:DateTimeControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DateTimeControl}">
+                    <StackPanel Orientation="Horizontal">
+                        
+                    <DatePicker  x:Name="dp1"  Width="200"  VerticalAlignment="Center"      Text="{Binding Start,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"  />
+                    <DatePicker  x:Name="dp2"  Width="200"  VerticalAlignment="Center"     Text="{Binding Start,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"   />
+               
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 
 </ResourceDictionary>

@@ -19,28 +19,25 @@ using DynamicData;
 
 namespace FinanceWpf.Terminal
 {
-    public class MainViewModel : ReactiveUI.ReactiveObject
+    public class MainViewModel : ReactiveUI.ReactiveObject, IDisposable
     {
 
+
+
         ReadOnlyObservableCollection<Sector> sectors;
-        public ReadOnlyObservableCollection<Sector> Sectors => sectors;
-
-        private FinanceWpf.DAL.Column column = DAL.Column.Open;
-
-        public FinanceWpf.DAL.Column Column
-        {
-            get => column;
-            set => this.RaiseAndSetIfChanged(ref column, value);
-        }
-
         private Stock stock;
+        private DateTime date1;
+        private DateTime date2;
+        readonly ObservableAsPropertyHelper<IEnumerable<DayMovement>> prices;
+        private CompositeDisposable compositeDisposable;
+
 
         public Stock Stock
         {
             get => stock;
             set => this.RaiseAndSetIfChanged(ref stock, value);
         }
-        private DateTime date1;
+
 
         public DateTime Date1
         {
@@ -48,53 +45,67 @@ namespace FinanceWpf.Terminal
             set => this.RaiseAndSetIfChanged(ref date1, value);
         }
 
-        private DateTime date2;
-
         public DateTime Date2
         {
             get => date2;
             set => this.RaiseAndSetIfChanged(ref date2, value);
-
-
         }
-        readonly ObservableAsPropertyHelper<IEnumerable<DayMovement>> prices;
+
+        public ReadOnlyObservableCollection<Sector> Sectors => sectors;
 
         public IEnumerable<DayMovement> Prices => prices.Value?.ToList();
-
 
 
         public MainViewModel()
         {
             var repo = new DAL.DataRepository();
+            var s = this.WhenAnyValue(_ => _.Stock).Where(_ => _ != null);
 
-            prices = this.WhenAnyValue(_ => _.Stock)
-                .Where(_=>_!=null )
-                .CombineLatest(this.WhenAnyValue(_ => _.Date1), this.WhenAnyValue(_ => _.Date2),(a,b,c)=>
+    
+            var p =
+                 this.WhenAnyValue(_ => _.Date1).Where(_ => _ != default(DateTime)).CombineLatest(
+                 this.WhenAnyValue(_ => _.Date2).Where(_=>_!=default(DateTime)), (a, b) =>
+                  new DateRange { Start = a, End = b }).WithLatestFrom(s, (a, b) => new { a, b })
+                  .Select(_ => Prices.Where(pr => pr.Date >= _.a.Start && pr.Date <= _.a.End));
                 
-               repo.GetStock(a.Key).Prices.ToList()/*.Where(__=>__.Date>b && __.Date<c)*/)
-                .ToProperty(this, _ => _.Prices);
+            var p2 = s.Select(a=>  repo.GetStock(a.Key).Prices.ToList()).Where(_ => _ != null);
+            var p3 = p2.Merge(p);
+            prices = p3.ToProperty(this, _ => 
+            _.Prices);
 
-            this.WhenAnyValue(_ => _.Prices)
-                   .Where(_ => _ != null)
-                .Select(_ => new { first = _.First().Date, second = _.Last().Date })
-                .Subscribe(_ => { Date1 = _.first; Date2 = _.second; });
-            //    .SubscribeOn(Scheduler.Default)
-            //    .Select(_ => new FinanceWpf.DAL.Repository().GetStock(_ + ".csv"))
-            //    .ToProperty(this, _ => _.Stock);
+            var dis2 = p3
+                .Select(_ => new DateRange { Start = _.First().Date, End = _.Last().Date }).DistinctUntilChanged()
+                .Subscribe(_ => { Date1 = _.Start; Date2 = _.End; });
 
-            var obs1 =
+            var dis1 =
                repo.GetSectors()
                 .ToObservable(Scheduler.Default)
                 .ToObservableChangeSet()
                 .ObserveOnDispatcher()
                    .DisposeMany()
-                .Bind(out sectors);
-   
-                 var dis1=obs1    .Subscribe();
-            obs1.Take(1).Subscribe(_ =>
-               Stock = sectors.First().Stocks.First());
+                .Bind(out sectors)
+                .Subscribe(_ => Stock = sectors.First().Stocks.First());
+
+
+            compositeDisposable = new CompositeDisposable(dis1, dis2);
         }
 
+        public void Dispose()
+        {
+            compositeDisposable.Dispose();
+        }
+
+
+        class DateRange:IEquatable<DateRange>
+        {
+            public DateTime Start { get; set; }
+            public DateTime End { get; set; }
+
+            public bool Equals(DateRange other)
+            {
+               return Start == other.Start && End == other.End;
+            }
+        }
     }
 }
 
