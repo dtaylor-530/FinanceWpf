@@ -32,12 +32,6 @@ namespace FinanceWpf.Terminal
         private CompositeDisposable compositeDisposable;
 
 
-        public Stock Stock
-        {
-            get => stock;
-            set => this.RaiseAndSetIfChanged(ref stock, value);
-        }
-
 
         public DateTime Date1
         {
@@ -52,6 +46,12 @@ namespace FinanceWpf.Terminal
         }
 
         public ReadOnlyObservableCollection<Sector> Sectors => sectors;
+
+        public Stock Stock
+        {
+            get => stock;
+            set => this.RaiseAndSetIfChanged(ref stock, value);
+        }
 
         public IEnumerable<DayMovement> Prices => prices.Value?.ToList();
 

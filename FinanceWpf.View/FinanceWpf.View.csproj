@@ -93,11 +93,11 @@
     <Reference Include="Thriple, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Thriple.1.0.0\lib\net35\Thriple.dll</HintPath>
     </Reference>
-    <Reference Include="UtilityHelper, Version=1.2.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\dt_UtilityHelper.1.2.12-alpha\lib\netstandard2.0\UtilityHelper.dll</HintPath>
+    <Reference Include="UtilityHelper, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UtilityHelper.2.1.1-alpha\lib\netstandard2.0\UtilityHelper.dll</HintPath>
     </Reference>
-    <Reference Include="UtilityInterface, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Smarkets\packages\dt_UtilityInterface.1.0.3\lib\netstandard2.0\UtilityInterface.dll</HintPath>
+    <Reference Include="UtilityModel, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UtilityModel.1.0.6-alpha\lib\netstandard2.0\UtilityModel.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

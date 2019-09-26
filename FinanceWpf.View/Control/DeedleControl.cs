@@ -183,8 +183,8 @@ namespace FinanceWpf.View
                 var values = data_.Cast<object>().ToList();
                 return
                       new Series<DateTime, double>(
-                      from dat in values select dat.GetPropValue<DateTime>(dateTime, type),
-                      from dat in values select dat.GetPropValue<double>(value, type));
+                      from dat in values select dat.GetPropertyValue<DateTime>(dateTime, type),
+                      from dat in values select dat.GetPropertyValue<double>(value, type));
             }
             else
                 return null;

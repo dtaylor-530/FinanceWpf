@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using UtilityInterface.Database;
+
 namespace FinanceWpf.Model
 {
-
-
     public class Trade//:IDbRow
     {
         public string Key { get; set; }

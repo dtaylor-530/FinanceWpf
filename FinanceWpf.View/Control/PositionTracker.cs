@@ -252,24 +252,24 @@ namespace FinanceWpf.View
                                              if (newitems is IEnumerable enumerable)
                                                  foreach (var __ in (enumerable).Cast<object>().ToArray())
                                                  {
-                                                     observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>(__.GetPropValue<string>(Key_),
-                                                         new KeyValuePair<DateTime, Dictionary<string, decimal>>(newitems.GetPropValue<DateTime>(Date_),
+                                                     observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>(__.GetPropertyValue<string>(Key_),
+                                                         new KeyValuePair<DateTime, Dictionary<string, decimal>>(newitems.GetPropertyValue<DateTime>(Date_),
                                                     new Dictionary<string, decimal>
                                                     {
-                                                        { Value?.Name, Value!=null?newitems.GetPropValue<decimal>(Value):0 },
-                                                                     { Price?.Name, Price!=null?newitems.GetPropValue<decimal>(Price):0 },
-                                                                { Profit?.Name, Profit!=null?newitems.GetPropValue<decimal>(Profit):0 }
+                                                        { Value?.Name, Value!=null?newitems.GetPropertyValue<decimal>(Value):0 },
+                                                                     { Price?.Name, Price!=null?newitems.GetPropertyValue<decimal>(Price):0 },
+                                                                { Profit?.Name, Profit!=null?newitems.GetPropertyValue<decimal>(Profit):0 }
 
                                                     })));
                                                  }
                                              else
-                                                 observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>(newitems.GetPropValue<string>(Key_),
-                                                    new KeyValuePair<DateTime, Dictionary<string, decimal>>(newitems.GetPropValue<DateTime>(Date_),
+                                                 observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Dictionary<string, decimal>>>(newitems.GetPropertyValue<string>(Key_),
+                                                    new KeyValuePair<DateTime, Dictionary<string, decimal>>(newitems.GetPropertyValue<DateTime>(Date_),
                                                     new Dictionary<string, decimal>
                                                     {
-                                                        { Value?.Name, Value!=null?newitems.GetPropValue<decimal>(Value):0 },
-                                                                     { Price?.Name, Price!=null?newitems.GetPropValue<decimal>(Price):0 },
-                                                                { Profit?.Name, Profit!=null?newitems.GetPropValue<decimal>(Profit):0 }
+                                                        { Value?.Name, Value!=null?newitems.GetPropertyValue<decimal>(Value):0 },
+                                                                     { Price?.Name, Price!=null?newitems.GetPropertyValue<decimal>(Price):0 },
+                                                                { Profit?.Name, Profit!=null?newitems.GetPropertyValue<decimal>(Profit):0 }
                                                     })));
                                          }
                                      }
@@ -304,8 +304,8 @@ namespace FinanceWpf.View
         //                          }
         //                          foreach (var __ in _.NewItems)
         //                          {
-        //                              observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Tuple<double, double>>>(__.GetPropValue<string>(Key_),
-        //                                  new KeyValuePair<DateTime, Tuple<double, double>>(__.GetPropValue<DateTime>(Date_), Tuple.Create(__.GetPropValue<double>(Value), __.GetPropValue<double>(Value2)))));
+        //                              observer.OnNext(new KeyValuePair<string, KeyValuePair<DateTime, Tuple<double, double>>>(__.GetPropertyValue<string>(Key_),
+        //                                  new KeyValuePair<DateTime, Tuple<double, double>>(__.GetPropertyValue<DateTime>(Date_), Tuple.Create(__.GetPropertyValue<double>(Value), __.GetPropertyValue<double>(Value2)))));
         //                          }
 
         //                      }

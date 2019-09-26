@@ -12,9 +12,11 @@
      xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
                    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
            xmlns:kchart="clr-namespace:KChart.Chart;assembly=KChart"
-             xmlns:behaviors="clr-namespace:MyPoject.Behaviors"
+           
 xmlns:view="clr-namespace:FinanceWpf.View;assembly=FinanceWpf.View"
-                   Background="{DynamicResource MaterialDesignPaper}"
+             xmlns:utility="clr-namespace:UtilityWpf.View;assembly=UtilityWpf.View"
+             xmlns:behaviors="clr-namespace:UtilityWpf.Behavior;assembly=UtilityWpf.Common"
+             Background="{DynamicResource MaterialDesignPaper}"
                    BorderThickness="0"
             
                    TextElement.FontSize="14"
@@ -37,18 +39,18 @@ xmlns:view="clr-namespace:FinanceWpf.View;assembly=FinanceWpf.View"
             <DatePicker  x:Name="dp2"  Width="200"  VerticalAlignment="Center"     Text="{Binding Date2,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"   />
 
         </ToolBar>
-        <view:TreeViewFirst x:Name="tvMain" ItemsSource="{Binding Sectors,Mode=OneWay}"   DockPanel.Dock="Left" >
+        <utility:TreeViewFirst x:Name="tvMain" ItemsSource="{Binding Sectors,Mode=OneWay}"   DockPanel.Dock="Left" >
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding Stock,Mode=TwoWay}" />
             </i:Interaction.Behaviors>
-            <view:TreeViewFirst.ItemTemplate>
+            <utility:TreeViewFirst.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Stocks,Mode=OneTime}">
                     <StackPanel Orientation="Horizontal" Margin="4" >
                         <TextBlock Text="{Binding Path=Key}" Margin="2" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
-            </view:TreeViewFirst.ItemTemplate>
-        </view:TreeViewFirst>
+            </utility:TreeViewFirst.ItemTemplate>
+        </utility:TreeViewFirst>
 
         <Grid>
             <kchart:KChart DataSource="{Binding Prices,Mode=OneWay}" DockPanel.Dock="Bottom"

@@ -16,8 +16,8 @@ namespace FinanceWpf.Terminal
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var lst = (value as IEnumerable).Cast<object>();
-           var first= lst.First().GetPropValue<DateTime>(parameter.ToString());
-            var last=lst.First().GetPropValue<DateTime>(parameter.ToString());
+           var first= lst.First().GetPropertyValue<DateTime>(parameter.ToString());
+            var last=lst.First().GetPropertyValue<DateTime>(parameter.ToString());
             return new Tuple<DateTime, DateTime>(first, last);
         }
 

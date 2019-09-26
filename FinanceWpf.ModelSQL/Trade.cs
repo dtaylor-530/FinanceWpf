@@ -1,11 +1,11 @@
 ﻿using SQLite;
 using System;
-using UtilityInterface;
+using UtilityInterface.Generic.Database;
 
 namespace FinanceWpf.Entity.SQL
 {
 
-    public class Trade:IDbRow
+    public class Trade: UtilityInterface.NonGeneric.Database.IId, UtilityInterface.NonGeneric.Database.IChildRow
     {
         [PrimaryKey, NotNull]
         public Int64 Id { get; set; }
