@@ -17,9 +17,9 @@ namespace FinanceWpf.DAL
 {
     public class DataRepository
     {
-        const string raw = @"..\..\..\stocknet-dataset-master\price\raw";
+        const string raw = @"..\..\..\..\stocknet-dataset-master\price\raw";
 
-        const string stockTable = @"..\..\..\stocknet-dataset-master\StockTable.csv";
+        const string stockTable = @"..\..\..\..\stocknet-dataset-master\StockTable.csv";
 
 
 

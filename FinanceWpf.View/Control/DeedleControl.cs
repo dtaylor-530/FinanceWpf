@@ -103,10 +103,6 @@ namespace FinanceWpf.View
         public DeedleControl()
         {
 
-            Uri resourceLocater = new Uri("/FinanceWpf.View;component/Themes/Generic.xaml", System.UriKind.Relative);
-            ResourceDictionary resourceDictionary = (ResourceDictionary)Application.LoadComponent(resourceLocater);
-            Style = resourceDictionary["DeedleControl"] as Style;
-
             var xx = dict[nameof(Data)]
         .CombineLatest(
         dict[nameof(Date)].StartWith("Date"),

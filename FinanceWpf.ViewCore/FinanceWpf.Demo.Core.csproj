@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceWpf.DAL\FinanceWpf.DAL.csproj" />
+    <ProjectReference Include="..\FinanceWpf.View.Core\FinanceWpf.View.Core.csproj" />
+    <ProjectReference Include="..\KChart\KChart.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="MainWindow.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\SecondaryPage.xaml.cs">
+      <DependentUpon>SecondaryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\TertiaryPage.xaml.cs">
+      <DependentUpon>TertiaryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="UserControl\MainUserControl.xaml.cs">
+      <DependentUpon>MainUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="UserControl\SecondaryUserControl.xaml.cs">
+      <DependentUpon>SecondaryUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="UserControl\TertiaryUserControl.xaml.cs">
+      <DependentUpon>TertiaryUserControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\SecondaryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\TertiaryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControl\MainUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControl\SecondaryUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControl\TertiaryUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

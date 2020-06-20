@@ -19,6 +19,7 @@ namespace FinanceWpf.View
             set { SetValue(StartProperty, value); }
         }
 
+        // Using a DependencyProperty as the backing store for Start.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StartProperty =
             DependencyProperty.Register("Start", typeof(DateTime), typeof(DateTimeControl), new PropertyMetadata(default(DateTime),StartChanged));
 
@@ -35,6 +36,7 @@ namespace FinanceWpf.View
             set { SetValue(EndProperty, value); }
         }
 
+        // Using a DependencyProperty as the backing store for End.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty EndProperty =
             DependencyProperty.Register("End", typeof(DateTime), typeof(DateTimeControl), new PropertyMetadata(default(DateTime),EndChanged));
 

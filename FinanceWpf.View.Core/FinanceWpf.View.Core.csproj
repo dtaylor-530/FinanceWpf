@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="4.7.2" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0-ci1494" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
+    <PackageReference Include="QuickConverter" Version="1.2.5" />
+    <PackageReference Include="ReactiveUI.WPF" Version="11.4.17" />
+    <PackageReference Include="Thriple" Version="1.0.0" />
+    <PackageReference Include="UtilityHelper" Version="2.1.3-alpha" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceWpf.Model\FinanceWpf.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="DataTemplate\PositionDataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DataTemplate\StockDataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DataTemplate\TradeDataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+</Project>

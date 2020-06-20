@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.Terminal", "FinanceWpf.Terminal\FinanceWpf.Terminal.csproj", "{36896DDE-07F8-4782-AB76-4D93260F06D4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.DAL", "FinanceWpf.DAL\FinanceWpf.DAL.csproj", "{A29B8E37-B661-4F9B-BE61-73F804CE88E3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.View", "FinanceWpf.View\FinanceWpf.View.csproj", "{127303BF-D7E0-4A2A-8955-E76A6AB771DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.Service", "FinanceWpf.Service\FinanceWpf.Service.csproj", "{79362747-BB56-4F16-A20D-2D753A27CCAD}"
 EndProject
@@ -19,24 +15,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceWpf.Model", "Finance
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.Common", "FinanceWpf.Common\FinanceWpf.Common.csproj", "{FFC661A5-8DB0-438E-9D65-803BC0C196DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.View.Core", "FinanceWpf.View.Core\FinanceWpf.View.Core.csproj", "{64FBF049-492B-45B1-A07D-7C9D94905B9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceWpf.Demo.Core", "FinanceWpf.ViewCore\FinanceWpf.Demo.Core.csproj", "{8020815D-044E-44E8-A308-96F38DAF6C68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{36896DDE-07F8-4782-AB76-4D93260F06D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36896DDE-07F8-4782-AB76-4D93260F06D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36896DDE-07F8-4782-AB76-4D93260F06D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36896DDE-07F8-4782-AB76-4D93260F06D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A29B8E37-B661-4F9B-BE61-73F804CE88E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A29B8E37-B661-4F9B-BE61-73F804CE88E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A29B8E37-B661-4F9B-BE61-73F804CE88E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A29B8E37-B661-4F9B-BE61-73F804CE88E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{127303BF-D7E0-4A2A-8955-E76A6AB771DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{127303BF-D7E0-4A2A-8955-E76A6AB771DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{127303BF-D7E0-4A2A-8955-E76A6AB771DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{127303BF-D7E0-4A2A-8955-E76A6AB771DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79362747-BB56-4F16-A20D-2D753A27CCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79362747-BB56-4F16-A20D-2D753A27CCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79362747-BB56-4F16-A20D-2D753A27CCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +49,14 @@ Global
 		{FFC661A5-8DB0-438E-9D65-803BC0C196DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFC661A5-8DB0-438E-9D65-803BC0C196DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFC661A5-8DB0-438E-9D65-803BC0C196DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64FBF049-492B-45B1-A07D-7C9D94905B9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FBF049-492B-45B1-A07D-7C9D94905B9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FBF049-492B-45B1-A07D-7C9D94905B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FBF049-492B-45B1-A07D-7C9D94905B9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8020815D-044E-44E8-A308-96F38DAF6C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8020815D-044E-44E8-A308-96F38DAF6C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8020815D-044E-44E8-A308-96F38DAF6C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8020815D-044E-44E8-A308-96F38DAF6C68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

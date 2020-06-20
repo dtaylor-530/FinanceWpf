@@ -73,7 +73,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FinanceWpf.ModelSQL\FinanceWpf.Entity.SQL.csproj">
       <Project>{7E90A0BE-4C7F-4922-BB72-BB5CE883B92A}</Project>
-      <Name>FinanceSystem.Entity.SQL</Name>
+      <Name>FinanceWpf.Entity.SQL</Name>
     </ProjectReference>
     <ProjectReference Include="..\FinanceWpf.Model\FinanceWpf.Model.csproj">
       <Project>{0bb2b827-4f23-4f31-9683-ae21b1be0c21}</Project>
