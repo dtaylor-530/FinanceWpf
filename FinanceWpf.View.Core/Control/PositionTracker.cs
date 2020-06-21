@@ -1,6 +1,5 @@
 ﻿using DynamicData;
 using FinanceWpf.Model;
-
 using FinanceWpf.ViewModel;
 using NodaMoney;
 using System;
@@ -8,18 +7,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using UniRx;
 using UtilityHelper;
 using UtilityHelper.NonGeneric;
@@ -98,7 +92,7 @@ namespace FinanceWpf.View
         }
 
 
-          Dictionary<string, Subject<object>> dict = typeof(PositionTracker).GetDependencyProperties().ToDictionary(_ => _.Name.Substring(0, _.Name.Length - 8), _ => new Subject<object>());
+        Dictionary<string, Subject<object>> dict = typeof(PositionTracker).GetDependencyProperties().ToDictionary(_ => _.Name.Substring(0, _.Name.Length - 8), _ => new Subject<object>());
         private ReadOnlyObservableCollection<PositionViewModel> _data;
 
         public static readonly DependencyProperty PositionsProperty =
@@ -183,7 +177,7 @@ namespace FinanceWpf.View
                                  {
                                      if (type == null)
                                      {
-                            
+
                                          type = data.First().GetType();
                                          var properties = type.GetProperties();
                                          Date_ = type.GetProperty(date);

@@ -39,7 +39,7 @@
         <!-- MENU BAR -->
         <Menu DockPanel.Dock="Top" >
             <MenuItem Header="_File" Height="26">
-                <MenuItem Header="_Exit" Command="{Binding ExitAppCmd}" />
+                <MenuItem Header="_Exit" Click="Exit_MenuItem_Click" />
             </MenuItem>
         </Menu>
 

@@ -11,7 +11,9 @@
     <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
     <PackageReference Include="QuickConverter" Version="1.2.5" />
     <PackageReference Include="ReactiveUI.WPF" Version="11.4.17" />
+    <PackageReference Include="ScottPlot.WPF" Version="4.0.35" />
     <PackageReference Include="Thriple" Version="1.0.0" />
+    <PackageReference Include="Trady.Analysis" Version="3.2.8" />
     <PackageReference Include="UtilityHelper" Version="2.1.3-alpha" />
   </ItemGroup>
 

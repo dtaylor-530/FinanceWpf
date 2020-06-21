@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ScottPlot.WPF" Version="4.0.35" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FinanceWpf.DAL\FinanceWpf.DAL.csproj" />
     <ProjectReference Include="..\FinanceWpf.View.Core\FinanceWpf.View.Core.csproj" />
-    <ProjectReference Include="..\KChart\KChart.csproj" />
   </ItemGroup>
 
   <ItemGroup>

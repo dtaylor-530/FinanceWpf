@@ -28,5 +28,12 @@ namespace FinanceWpf.Terminal
         {
             InitializeComponent();
         }
+
+
+
+        private void Exit_MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

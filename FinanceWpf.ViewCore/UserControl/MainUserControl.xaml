@@ -2,14 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FinanceWpf.Terminal"
-             xmlns:kchart="clr-namespace:KChart.Chart;assembly=KChart"
              Background="{DynamicResource MaterialDesignPaper}"
-                   BorderThickness="0"
-                               TextElement.FontSize="14"
-                   TextElement.FontWeight="Medium"
+             BorderThickness="0"
+             TextElement.FontSize="14"
+             TextElement.FontWeight="Medium"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:behaviors="clr-namespace:FinanceWpf.Demo.Core.Behaviors"
-                 >
+             xmlns:behaviors="clr-namespace:FinanceWpf.Demo.Core.Behaviors" 
+             xmlns:view="clr-namespace:FinanceWpf.View;assembly=FinanceWpf.View.Core">
 
 
     <UserControl.DataContext>
@@ -23,22 +22,11 @@
 
     <DockPanel>
         <ToolBar DockPanel.Dock="Top">
-            <DatePicker  x:Name="dp1"  Width="200"  VerticalAlignment="Center"      Text="{Binding Date1,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"  />
-            <DatePicker  x:Name="dp2"  Width="200"  VerticalAlignment="Center"     Text="{Binding Date2,Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"   />
+            <DatePicker  x:Name="dp1"  Width="200"  VerticalAlignment="Center"      Text="{Binding Date1,Mode=TwoWay, Converter={StaticResource DateTimeConverter}}"  />
+            <DatePicker  x:Name="dp2"  Width="200"  VerticalAlignment="Center"     Text="{Binding Date2,Mode=TwoWay, Converter={StaticResource DateTimeConverter}}"   />
 
         </ToolBar>
-        <!--<utility:TreeViewFirst x:Name="tvMain" ItemsSource="{Binding Sectors,Mode=OneWay}"   DockPanel.Dock="Left" >
-            <i:Interaction.Behaviors>
-                <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding Stock,Mode=TwoWay}" />
-            </i:Interaction.Behaviors>
-            <utility:TreeViewFirst.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Stocks,Mode=OneTime}">
-                    <StackPanel Orientation="Horizontal" Margin="4" >
-                        <TextBlock Text="{Binding Path=Key}" Margin="2" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </utility:TreeViewFirst.ItemTemplate>
-        </utility:TreeViewFirst>-->
+
         <TreeView x:Name="tvMain" ItemsSource="{Binding Sectors,Mode=OneWay}"   DockPanel.Dock="Left" >
             <i:Interaction.Behaviors>
                 <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding Stock,Mode=TwoWay}" />
@@ -52,19 +40,9 @@
             </TreeView.ItemTemplate>
         </TreeView>
         <Grid>
-            <kchart:KChart DataSource="{Binding Prices,Mode=OneWay}" DockPanel.Dock="Bottom"
-                           LowMemberPath="Low" HighMemberPath="High" LowMemberPath2="Close" HighMemberPath2="Open">
-                <kchart:KChart.Graphs>
-                    <kchart:StockGraph LowMemberPath="Low" HighMemberPath="High" CloseMemberPath="Close" OpenMemberPath="Open"></kchart:StockGraph>
+            <view:PlotView Name="wpfPlot1" Data="{Binding Prices,Mode=OneWay}" DockPanel.Dock="Bottom" />
 
-                </kchart:KChart.Graphs>
-                <kchart:KChart.OtherGraphs>
-                    <kchart:ColumnGraph Brush="PaleGreen" ValueMemberPath="Volume">
-
-                    </kchart:ColumnGraph>
-                </kchart:KChart.OtherGraphs>
-            </kchart:KChart>
-            <TextBlock Text="{Binding Prices.Count}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"></TextBlock>
+            <TextBlock Text="{Binding Prices.Count}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="30" FontSize="20" Foreground="{StaticResource PrimaryHueMidBrush}"></TextBlock>
         </Grid>
     </DockPanel>
 
