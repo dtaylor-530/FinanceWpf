@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
-    <PackageReference Include="UtilityInterface" Version="2.0.1-alpha" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
+    <PackageReference Include="UtilityInterface" Version="3.0.0-alpha" />
   </ItemGroup>
 
 </Project>

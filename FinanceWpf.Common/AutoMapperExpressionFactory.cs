@@ -61,31 +61,31 @@ namespace FinanceWpf.Map
 
 
 
-        public static void CreateTradeExpression(IMapperConfigurationExpression ce)
-        {
-            ce.CreateMap<Int64, DateTime>().ConvertUsing<TicksToDateTimeConverter>();
-            //ce.CreateMap<Int64, double>().ConvertUsing<LongToDoubleConverter>();
-            //ce.CreateMap<Int64, double>().ConvertUsing<LongToDoubleConverter2>();
-           ce.CreateMap<Entity.SQL.Trade, Model.Trade>()
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src =>
-                src.Price / 100d))
-                //.ForMember(dest => dest.Profit, opt => opt.MapFrom(src => 
-                //src.Profit / 100d))
-        .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => 
-        src.Amount / 100d));
+        //public static void CreateTradeExpression(IMapperConfigurationExpression ce)
+        //{
+        //    ce.CreateMap<Int64, DateTime>().ConvertUsing<TicksToDateTimeConverter>();
+        //    //ce.CreateMap<Int64, double>().ConvertUsing<LongToDoubleConverter>();
+        //    //ce.CreateMap<Int64, double>().ConvertUsing<LongToDoubleConverter2>();
+        //   ce.CreateMap<Entity.SQL.Trade, Model.Trade>()
+        //        .ForMember(dest => dest.Price, opt => opt.MapFrom(src =>
+        //        src.Price / 100d))
+        //        //.ForMember(dest => dest.Profit, opt => opt.MapFrom(src => 
+        //        //src.Profit / 100d))
+        //.ForMember(dest => dest.Amount, opt => opt.MapFrom(src => 
+        //src.Amount / 100d));
             
             
-        }
+        //}
 
 
-        public static void CreateTradeSQLExpression(IMapperConfigurationExpression ce)
-        {
-            ce.CreateMap< DateTime,Int64>().ConvertUsing<DateTimeToTicksConverter>();
-            ce.CreateMap< Double,Int64>().ConvertUsing<DoubleToLongConverter>();
-           ce.CreateMap<Entity.SQL.Trade, Model.Trade>();
+        //public static void CreateTradeSQLExpression(IMapperConfigurationExpression ce)
+        //{
+        //    ce.CreateMap< DateTime,Int64>().ConvertUsing<DateTimeToTicksConverter>();
+        //    ce.CreateMap< Double,Int64>().ConvertUsing<DoubleToLongConverter>();
+        //   ce.CreateMap<Entity.SQL.Trade, Model.Trade>();
 
   
-        }
+        //}
 
 
 

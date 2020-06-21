@@ -23,7 +23,7 @@ namespace FinanceWpf.DAL
 
 
 
-        public IEnumerable<Sector> GetAllData(Column column) =>
+        public IEnumerable<Sector> GetAllData() =>
 
              from x in
                  from s in GetSectors()
